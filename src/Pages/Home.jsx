@@ -10,8 +10,10 @@ function HOME() {
       <Box
         display={"flex"}
         justifyContent={"center"}
+        alignItems={"center"}
         fontFamily="Poppins, sans-serif"
       >
+        <Text textAlign={"center"}>Welcome to Employee DashBoard</Text>
         {!isLoggedIn ? (
           <Button colorScheme="green">
             <Link colorScheme="blue" to="/login">
