@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import Login from "./Login";
 
 function HOME() {
