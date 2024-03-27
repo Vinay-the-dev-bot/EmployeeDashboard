@@ -1,7 +1,15 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function NavBar() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    console.log("ashds");
+    localStorage.removeItem("token");
+  };
   return (
     <>
       <Box
@@ -10,7 +18,20 @@ function NavBar() {
         justifyContent={"space-around"}
       >
         <Link to="/">HOME</Link>
-        <Link to="/dashboard">DashBoard</Link>
+        {!isLoggedIn ? (
+          <Link to="/login">
+            <Button colorScheme="blue">Login</Button>
+          </Link>
+        ) : (
+          <Link to="/dashboard">
+            <Button colorScheme="green">DashBoard</Button>
+          </Link>
+        )}
+        {isLoggedIn && (
+          <Button colorScheme="red" onClick={handleLogout}>
+            LOGOUT
+          </Button>
+        )}
       </Box>
     </>
   );

@@ -26,7 +26,7 @@ function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
     if (email && password) {
-      const res = await fetch(`${url}/users/login`, {
+      const res = await fetch(`${url}/login`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -45,15 +45,12 @@ function LoginForm() {
           duration: 1000,
           isClosable: true,
         });
-        console.log(data.user.username);
-        localStorage.setItem("username", data.user.username);
         localStorage.setItem("token", data.token);
         dispatch({
           type: "LOGIN",
-          payload: { username: data.user.username, token: data.token },
         });
         setTimeout(() => {
-          navigate("/");
+          navigate("/dashboard");
         }, 1000);
       } else {
         setIsLoading(false);

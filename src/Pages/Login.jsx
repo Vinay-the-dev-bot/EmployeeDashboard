@@ -10,24 +10,34 @@ function Login() {
   };
 
   return (
-    <Box className="container">
-      <Box className={`card ${isLogin ? "login" : "signup"}`}>
-        <Box className="inner-box">
-          {isLogin ? <LoginForm /> : <SignupForm />}
-        </Box>
+    <Box>
+      <Box>
+        <Box>{isLogin ? <LoginForm /> : <SignupForm />}</Box>
 
-        <Box className="w-2/5 m-auto  flex flex-col items-center ">
+        <Box w={"100%"}>
           {isLogin ? (
             <>
-              <Text className="w-fit p-5">Don't Have an Account</Text>
-              <Button className="w-fit" onClick={() => setIsLogin(false)}>
+              <Text padding={"20px"} textAlign={"center"}>
+                Don't Have an Account
+              </Text>
+              <Button
+                display={"block"}
+                margin={"auto"}
+                onClick={() => setIsLogin(false)}
+              >
                 Register
               </Button>
             </>
           ) : (
             <>
-              <Text className="p-5">Already Have an Account</Text>
-              <Button className="w-fit" onClick={() => setIsLogin(true)}>
+              <Text padding={"20px"} textAlign={"center"}>
+                Already Have an Account
+              </Text>
+              <Button
+                display={"block"}
+                margin={"auto"}
+                onClick={() => setIsLogin(true)}
+              >
                 Login
               </Button>
             </>

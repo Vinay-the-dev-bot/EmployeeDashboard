@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 
-function SignupForm() {
+function SignupForm({ setIsLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,7 +26,7 @@ function SignupForm() {
         (password != "" || confirmPassword != "") &&
         confirmPassword === password
       ) {
-        const res = await fetch(`${url}/users/register`, {
+        const res = await fetch(`${url}/signup`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -46,9 +46,7 @@ function SignupForm() {
             isClosable: true,
           });
 
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+          setIsLogin(true);
         } else {
           toast({
             title: "Account already in Use.",
@@ -76,12 +74,6 @@ function SignupForm() {
     }
   };
   return (
-    //     display: flex;
-    // flex-direction: column;
-    // width: 40%;
-    // margin: auto;
-    // border-radius: 10px;
-    // padding: 50px 0;
     <FormControl
       display={"flex"}
       flexDirection={"column"}
@@ -179,17 +171,16 @@ function SignupForm() {
         marginBottom={"20px"}
       >
         <Input
-          className="inpt passwordInp p-2"
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
-          id="confirmpassword"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </Box>
       <Button
-        id="regButton"
-        className="m-auto w-4/5 "
+        display={"block"}
+        margin={"auto"}
+        width={"80%"}
         onClick={(e) => handleRegister(e)}
       >
         Register

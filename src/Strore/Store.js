@@ -11,8 +11,15 @@ const reducer = (state = initialState, action) => {
       return { ...state, employees: action.payload };
     case "LOGIN":
       return { ...state, isLoggedIn: true };
+    case "LOGOUT":
+      console.log(action);
+      return { ...state, isLoggedIn: false };
     case "ADD_EMPLOYEE":
-      return { ...state, employees: [...state.employees, action.payload] };
+      if (state.employees.length < 5) {
+        return { ...state, employees: [...state.employees, action.payload] };
+      } else {
+        return state;
+      }
     case "EDIT_EMPLOYEE":
       const updatedEmp = state.employees.map((emp) => {
         if (emp._id == action.payload._id) {

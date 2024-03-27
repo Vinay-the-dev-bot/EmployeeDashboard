@@ -4,8 +4,12 @@ import {
   FormLabel,
   Input,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { url } from "../App";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../Strore/actions";
 
 function AddForm({ onClose }) {
   const [firstName, setFirstName] = useState("");
@@ -13,10 +17,51 @@ function AddForm({ onClose }) {
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
   const [salary, setSalary] = useState(0);
+  const toast = useToast();
+  const dispatch = useDispatch();
 
-  const handleAdd = () => {
-    console.log("ADD");
-    onClose();
+  const handleAdd = async () => {
+    if (firstName && lastName && email && department && salary) {
+      const emp = {
+        firstName,
+        lastName,
+        email,
+        department,
+        salary,
+      };
+      const res = await fetch(`${url}/employee`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(emp),
+      });
+      const data = await res.json();
+      if (data.msg == "EMPLOYEE ADDED") {
+        toast({
+          title: "Employee Updated.",
+          status: "success",
+          duration: 1000,
+          isClosable: true,
+        });
+        dispatch(addEmployee({ data: data.employee }));
+        onClose();
+      } else {
+        toast({
+          title: `${data.msg}`,
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+      }
+    } else {
+      toast({
+        title: "Please Provide All Details",
+        status: "error",
+        duration: 1000,
+        isClosable: true,
+      });
+    }
   };
   return (
     <>
@@ -57,6 +102,7 @@ function AddForm({ onClose }) {
         >
           <option value="">Select Department</option>
           <option value="Tech">Tech</option>
+          <option value="Marketing">H.R</option>
           <option value="Marketing">Marketing</option>
           <option value="Operations">Operations</option>
         </Select>
@@ -65,7 +111,7 @@ function AddForm({ onClose }) {
           Salary
         </FormLabel>
         <Input
-          type="text"
+          type="number"
           placeholder="Enter Salary"
           value={salary}
           onChange={(e) => setSalary(e.target.value)}
